@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <title>AGI Quiz</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 10px;
+      }
+
+      .question {
+        margin-bottom: 20px;
+      }
+
+      .celebration {
+        font-size: 24px;
+        color: green;
+        animation: celebrate 1s infinite;
+      }
+
+      @keyframes celebrate {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AGI Quiz</h1>
+
+    <div id="start">
+      <p>Select the number of questions:</p>
+      <button onclick="startQuiz(5)">5 Questions</button>
+      <button onclick="startQuiz(10)">10 Questions</button>
+      <button onclick="startQuiz(15)">15 Questions</button>
+      <button onclick="startQuiz(20)">20 Questions</button>
+    </div>
+
+    <div id="quiz" style="display: none">
+      <div id="question"></div>
+      <button onclick="checkAnswer(0)">Option 1</button>
+      <button onclick="checkAnswer(1)">Option 2</button>
+      <button onclick="checkAnswer(2)">Option 3</button>
+      <button onclick="checkAnswer(3)">Option 4</button>
+    </div>
+
+    <div id="result" style="display: none">
+      <h2>Quiz Result</h2>
+      <p>You scored <span id="score"></span> out of <span id="total"></span>!</p>
+      <div id="celebration" class="celebration" style="display: none">Congratulations!</div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "What does FOOM stand for?",
+          options: ["Fast Onset Of Madness", "Friendly Omnipotent Overlord Machine", "Fairly Odd Optimization Mechanism", "Foom? What's that?"],
+          answer: 1,
+        },
+        {
+          question: "What is the meaning of 'e/acc' in the context of AGI?",
+          options: ["Eliezer's Accelerated Cognition", "Exponential Accumulation of Capabilities", "Ethical Alignment of Consciousness", "Elon's Autonomous Car Company"],
+          answer: 1,
+        },
+        {
+          question: "Who is Eliezer Yudkowsky?",
+          options: ["A famous AGI researcher", "The founder of AGI House", "A character from a sci-fi novel", "A type of sushi roll"],
+          answer: 0,
+        },
+        {
+          question: "What is the purpose of AGI House?",
+          options: ["To create the first AGI", "To party with AI enthusiasts", "To bring hackathon life back to Silicon Valley", "To build a giant robot"],
+          answer: 2,
+        },
+        {
+          question: "Where is AGI House located?",
+          options: ["New York", "London", "San Francisco", "Tokyo"],
+          answer: 2,
+        },
+        // Add more questions here
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+      let numQuestions = 0;
+
+      function startQuiz(num) {
+        numQuestions = num;
+        document.getElementById("start").style.display = "none";
+        document.getElementById("quiz").style.display = "block";
+        showQuestion();
+      }
+
+      function showQuestion() {
+        const question = questions[currentQuestion];
+        document.getElementById("question").textContent = question.question;
+        const buttons = document.querySelectorAll("#quiz button");
+        for (let i = 0; i < buttons.length; i++) {
+          buttons[i].textContent = question.options[i];
+        }
+      }
+
+      function checkAnswer(selectedOption) {
+        const question = questions[currentQuestion];
+        if (selectedOption === question.answer) {
+          score++;
+        }
+        currentQuestion++;
+        if (currentQuestion < numQuestions) {
+          showQuestion();
+        } else {
+          showResult();
+        }
+      }
+
+      function showResult() {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("result").style.display = "block";
+        document.getElementById("score").textContent = score;
+        document.getElementById("total").textContent = numQuestions;
+        if (score === numQuestions) {
+          document.getElementById("celebration").style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
